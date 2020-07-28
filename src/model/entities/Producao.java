@@ -1,4 +1,4 @@
-//Não coloquei a relação entre as classes Produção e Referencia porque acho que não existe
+//Coloquei a relação entre as classes Producao e Referencia. Todo item de produção possui uma referência
 
 package model.entities;
 
@@ -12,23 +12,17 @@ public class Producao implements Serializable {
 	private Integer id;
 	private Date data;
 	private Integer registro;
-	private Integer codigo;
-	private String procedimento;
-	private Double pontos;
-	private Double valor;
+
+	private Referencia referencia;
 	
 	public Producao() {
 }
 
-	public Producao(Integer id, Date data, Integer registro, Integer codigo, String procedimento, Double pontos,
-			Double valor) {
+	public Producao(Integer id, Date data, Integer registro, Referencia referencia) {
 		this.id = id;
 		this.data = data;
 		this.registro = registro;
-		this.codigo = codigo;
-		this.procedimento = procedimento;
-		this.pontos = pontos;
-		this.valor = valor;
+		this.referencia = referencia;
 	}
 
 	public Integer getId() {
@@ -55,49 +49,22 @@ public class Producao implements Serializable {
 		this.registro = registro;
 	}
 
-	public Integer getCodigo() {
-		return codigo;
+	public Referencia getReferencia() {
+		return referencia;
 	}
 
-	public void setCodigo(Integer codigo) {
-		this.codigo = codigo;
-	}
-
-	public String getProcedimento() {
-		return procedimento;
-	}
-
-	public void setProcedimento(String procedimento) {
-		this.procedimento = procedimento;
-	}
-
-	public Double getPontos() {
-		return pontos;
-	}
-
-	public void setPontos(Double pontos) {
-		this.pontos = pontos;
-	}
-
-	public Double getValor() {
-		return valor;
-	}
-
-	public void setValor(Double valor) {
-		this.valor = valor;
+	public void setReferencia(Referencia referencia) {
+		this.referencia = referencia;
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((codigo == null) ? 0 : codigo.hashCode());
 		result = prime * result + ((data == null) ? 0 : data.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result + ((pontos == null) ? 0 : pontos.hashCode());
-		result = prime * result + ((procedimento == null) ? 0 : procedimento.hashCode());
+		result = prime * result + ((referencia == null) ? 0 : referencia.hashCode());
 		result = prime * result + ((registro == null) ? 0 : registro.hashCode());
-		result = prime * result + ((valor == null) ? 0 : valor.hashCode());
 		return result;
 	}
 
@@ -110,11 +77,6 @@ public class Producao implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Producao other = (Producao) obj;
-		if (codigo == null) {
-			if (other.codigo != null)
-				return false;
-		} else if (!codigo.equals(other.codigo))
-			return false;
 		if (data == null) {
 			if (other.data != null)
 				return false;
@@ -125,33 +87,24 @@ public class Producao implements Serializable {
 				return false;
 		} else if (!id.equals(other.id))
 			return false;
-		if (pontos == null) {
-			if (other.pontos != null)
+		if (referencia == null) {
+			if (other.referencia != null)
 				return false;
-		} else if (!pontos.equals(other.pontos))
-			return false;
-		if (procedimento == null) {
-			if (other.procedimento != null)
-				return false;
-		} else if (!procedimento.equals(other.procedimento))
+		} else if (!referencia.equals(other.referencia))
 			return false;
 		if (registro == null) {
 			if (other.registro != null)
 				return false;
 		} else if (!registro.equals(other.registro))
 			return false;
-		if (valor == null) {
-			if (other.valor != null)
-				return false;
-		} else if (!valor.equals(other.valor))
-			return false;
 		return true;
 	}
 
 	@Override
 	public String toString() {
-		return "Producao [id=" + id + ", data=" + data + ", registro=" + registro + ", codigo=" + codigo
-				+ ", procedimento=" + procedimento + ", pontos=" + pontos + ", valor=" + valor + "]";
+		return "Producao [id=" + id + ", data=" + data + ", registro=" + registro + ", referencia=" + referencia + "]";
 	}
+
+	
 	
 }
