@@ -10,9 +10,9 @@ public interface ProducaoDao {
 	void insert (Producao obj);
 	void update (Producao obj);
 	void deleteById (Integer id);
-	Producao findbyid (Integer id);
-	Producao findbydata (Date data);
-	Producao findbyregistro (Integer registro);
+	Producao findById (Integer id);
+	Producao findByData (Date data);
+	Producao findByRegistro (Integer registro);
 	List<Producao> findAll();
 	
 	

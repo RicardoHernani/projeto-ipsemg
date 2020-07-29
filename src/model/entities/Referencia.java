@@ -27,16 +27,32 @@ public class Referencia implements Serializable {
 		return codigo;
 	}
 
+	public void setCodigo(Integer codigo) {
+		this.codigo = codigo;
+	}
+
 	public String getProcedimento() {
 		return procedimento;
+	}
+
+	public void setProcedimento(String procedimento) {
+		this.procedimento = procedimento;
 	}
 
 	public Double getPontos() {
 		return pontos;
 	}
 
+	public void setPontos(Double pontos) {
+		this.pontos = pontos;
+	}
+
 	public Double getValor() {
 		return valor;
+	}
+
+	public void setValor(Double valor) {
+		this.valor = valor;
 	}
 
 	@Override
