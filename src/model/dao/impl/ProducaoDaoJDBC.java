@@ -57,6 +57,10 @@ public class ProducaoDaoJDBC implements ProducaoDao {
 				Referencia ref = new Referencia();
 				ref.setCodigo(rs.getInt("ReferenciaCodigo"));
 				ref.setProcedimento(rs.getString("Procedimento"));
+				ref.setPontos(rs.getDouble("Pontos"));
+				ref.setValor(rs.getDouble("Valor"));
+				
+				
 				Producao obj = new Producao();
 				obj.setId(rs.getInt("Id"));
 				obj.setData(rs.getDate("Data"));

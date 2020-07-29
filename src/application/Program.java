@@ -9,7 +9,7 @@ public class Program {
 
 		ProducaoDao producaoDao = DaoFactory.createProducaoDao();
 		
-		Producao producao = producaoDao.findById(2);
+		Producao producao = producaoDao.findById(3);
 		
 		System.out.println(producao);
 		
