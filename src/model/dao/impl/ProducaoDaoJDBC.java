@@ -49,25 +49,15 @@ public class ProducaoDaoJDBC implements ProducaoDao {
 					"SELECT producao .*, referencia.Procedimento as Procedimento, referencia.Pontos as Pontos, referencia.Valor as Valor "
 					+ "FROM producao INNER JOIN referencia "
 					+ "ON producao.ReferenciaCodigo = referencia.Codigo "
-					+ "WHERE producao.Id = ?");
+					+ "WHERE producao.Id = ? ");
 		
 			st.setInt(1, id);
 			rs = st.executeQuery();
 			if (rs.next()) {
-				Referencia ref = new Referencia();
-				ref.setCodigo(rs.getInt("ReferenciaCodigo"));
-				ref.setProcedimento(rs.getString("Procedimento"));
-				ref.setPontos(rs.getDouble("Pontos"));
-				ref.setValor(rs.getDouble("Valor"));
+				Referencia ref = instantiateReferencia(rs);
 				
 				
-				Producao obj = new Producao();
-				obj.setId(rs.getInt("Id"));
-				obj.setData(rs.getDate("Data"));
-				obj.setRegistro(rs.getInt("Registro"));				
-				obj.setReferencia(ref);
-				
-				
+				Producao obj = instantiateProducao(rs, ref);
 				
 				return obj;
 			}
@@ -81,13 +71,29 @@ public class ProducaoDaoJDBC implements ProducaoDao {
 			DB.closeStatement(st);
 			DB.closeResultSet(rs);
 		}
-		
-		
+			
+	}
+	
+	private Producao instantiateProducao(ResultSet rs, Referencia ref) throws SQLException {
+		Producao obj = new Producao();
+		obj.setId(rs.getInt("Id"));
+		obj.setData(rs.getDate("Data"));
+		obj.setRegistro(rs.getInt("Registro"));				
+		obj.setReferencia(ref);
+		return obj;
 	}
 
-	
-	
-	
+
+	private Referencia instantiateReferencia(ResultSet rs) throws SQLException {
+		Referencia ref = new Referencia();
+		ref.setCodigo(rs.getInt("ReferenciaCodigo"));
+		ref.setProcedimento(rs.getString("Procedimento"));
+		ref.setPontos(rs.getDouble("Pontos"));
+		ref.setValor(rs.getDouble("Valor"));
+		return ref;
+	}
+
+
 	@Override
 	public Producao findByData(Date data) {
 		// TODO Auto-generated method stub

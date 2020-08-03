@@ -1,5 +1,3 @@
-//Retirei os sets da classe Referencia para não haver mudanças acidentais
-
 package model.entities;
 
 import java.io.Serializable;
