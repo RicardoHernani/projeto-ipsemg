@@ -4,8 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import db.DB;
@@ -15,7 +15,8 @@ import model.entities.Producao;
 import model.entities.Referencia;
 
 public class ProducaoDaoJDBC implements ProducaoDao {
-
+	
+	SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 	private Connection conn;
 	
 	public ProducaoDaoJDBC(Connection conn) {
@@ -96,14 +97,6 @@ public class ProducaoDaoJDBC implements ProducaoDao {
 
 
 	@Override
-	public Producao findByData(Date data) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	
-
-	@Override
 	public List<Producao> findAll() {
 		// TODO Auto-generated method stub
 		return null;
@@ -112,8 +105,10 @@ public class ProducaoDaoJDBC implements ProducaoDao {
 
 	@Override
 	public List<Producao> findByRegistro(Producao producao) {
+	
 		PreparedStatement st = null;
 		ResultSet rs = null;
+		
 		try {
 			st = conn.prepareStatement(
 					"SELECT producao .*, referencia.Procedimento as Procedimento, referencia.Pontos as Pontos, referencia.Valor as Valor "
@@ -138,6 +133,45 @@ public class ProducaoDaoJDBC implements ProducaoDao {
 		catch (SQLException e) {
 			throw new DbException(e.getMessage());
 		}
+		finally {
+			DB.closeStatement(st);
+			DB.closeResultSet(rs);
+		}
+	}
+
+
+	@Override
+	public List<Producao> findByData (Producao producao) {
+		
+		PreparedStatement st = null;
+		ResultSet rs = null;
+		
+		try {
+			st = conn.prepareStatement(
+					"SELECT producao .*, referencia.Procedimento as Procedimento, referencia.Pontos as Pontos, referencia.Valor as Valor "
+					+ "FROM producao INNER JOIN referencia "
+					+ "ON producao.ReferenciaCodigo = referencia.Codigo "
+					+ "WHERE producao.Data= ? ");
+		
+			
+			st.setDate(1, new java.sql.Date(producao.getData().getTime()));
+			rs = st.executeQuery();
+			
+			List<Producao> list = new ArrayList<>();
+			
+			while (rs.next()) {
+				Referencia ref = instantiateReferencia(rs); //Não fiz como indicado na aula 247 com a estrutura Map porque acho que nesse caso os objetos ref são diferentes e precisam ser instanciados.
+				Producao obj = instantiateProducao(rs, ref);
+				list.add(obj);
+				
+			}
+			return list;
+		
+		}
+		catch (SQLException e) {
+			throw new DbException(e.getMessage());
+		}
+				
 		finally {
 			DB.closeStatement(st);
 			DB.closeResultSet(rs);
