@@ -12,7 +12,7 @@ public interface ProducaoDao {
 	void deleteById (Integer id);
 	Producao findById (Integer id);
 	Producao findByData (Date data);
-	Producao findByRegistro (Integer registro);
+	List<Producao> findByRegistro (Producao producao);
 	List<Producao> findAll();
 	
 	

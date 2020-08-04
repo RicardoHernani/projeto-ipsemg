@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -100,16 +101,47 @@ public class ProducaoDaoJDBC implements ProducaoDao {
 		return null;
 	}
 
-	@Override
-	public Producao findByRegistro(Integer registro) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	
 
 	@Override
 	public List<Producao> findAll() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+
+	@Override
+	public List<Producao> findByRegistro(Producao producao) {
+		PreparedStatement st = null;
+		ResultSet rs = null;
+		try {
+			st = conn.prepareStatement(
+					"SELECT producao .*, referencia.Procedimento as Procedimento, referencia.Pontos as Pontos, referencia.Valor as Valor "
+					+ "FROM producao INNER JOIN referencia "
+					+ "ON producao.ReferenciaCodigo = referencia.Codigo "
+					+ "WHERE producao.registro=? ");
+		
+			st.setInt(1, producao.getRegistro());
+			rs = st.executeQuery();
+			
+			List<Producao> list = new ArrayList<>();
+			
+			while (rs.next()) {
+				Referencia ref = instantiateReferencia(rs); //Não fiz como indicado na aula 247 com a estrutura Map porque acho que nesse caso os objetos ref são diferentes e precisam ser instanciados.
+				Producao obj = instantiateProducao(rs, ref);
+				list.add(obj);
+				
+			}
+			return list;
+		
+		}
+		catch (SQLException e) {
+			throw new DbException(e.getMessage());
+		}
+		finally {
+			DB.closeStatement(st);
+			DB.closeResultSet(rs);
+		}
 	}
 
 }
