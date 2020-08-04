@@ -12,7 +12,5 @@ public interface ProducaoDao {
 	Producao findById (Integer id);
 	List<Producao> findByRegistro (Producao producao);
 	List<Producao> findByData (Producao producao);
-	List<Producao> findAll();
-	
 	
 }

@@ -4,7 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,7 +16,6 @@ import model.entities.Referencia;
 
 public class ProducaoDaoJDBC implements ProducaoDao {
 	
-	SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 	private Connection conn;
 	
 	public ProducaoDaoJDBC(Connection conn) {
@@ -26,8 +25,39 @@ public class ProducaoDaoJDBC implements ProducaoDao {
 	
 	@Override
 	public void insert(Producao obj) {
-		// TODO Auto-generated method stub
-		
+		PreparedStatement st = null;
+		try {
+			st = conn.prepareStatement(
+					"INSERT INTO producao "
+					+ "(Data, Registro, ReferenciaCodigo) "
+					+ "VALUES "
+					+ "(?, ?, ?)",
+					Statement.RETURN_GENERATED_KEYS);
+			
+			st.setDate(1, new java.sql.Date(obj.getData().getTime()));
+			st.setInt(2, obj.getRegistro());
+			st.setInt(3, obj.getReferencia().getCodigo());
+			
+			int rowsAffected = st.executeUpdate();
+			
+			if (rowsAffected > 0) {
+				ResultSet rs = st.getGeneratedKeys();
+				if (rs.next()) {
+					int id = rs.getInt(1);
+					obj.setId(id);
+				}
+				DB.closeResultSet(rs);
+			}
+			else {
+				throw new DbException("Erro inesperado! Nenhuma linha alterada!");
+			}
+		}
+		catch (SQLException e) {
+			throw new DbException(e.getMessage());
+		}
+		finally {
+			DB.closeStatement(st);
+		}
 	}
 
 	@Override
@@ -93,13 +123,6 @@ public class ProducaoDaoJDBC implements ProducaoDao {
 		ref.setPontos(rs.getDouble("Pontos"));
 		ref.setValor(rs.getDouble("Valor"));
 		return ref;
-	}
-
-
-	@Override
-	public List<Producao> findAll() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 
