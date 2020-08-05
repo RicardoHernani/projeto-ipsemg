@@ -13,6 +13,7 @@ public class Producao implements Serializable {
 	private Integer id;
 	private Date data;
 	private Integer registro;
+	
 
 	private Referencia referencia;
 	
@@ -57,6 +58,8 @@ public class Producao implements Serializable {
 	public void setReferencia(Referencia referencia) {
 		this.referencia = referencia;
 	}
+	
+	
 
 	@Override
 	public int hashCode() {

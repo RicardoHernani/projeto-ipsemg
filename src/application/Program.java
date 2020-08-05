@@ -37,11 +37,21 @@ public class Program {
 			System.out.println(obj);
 		}
 	
+		/*
 		System.out.println("\n===== TEST 4: producao insert =====");
 		Referencia referencia = new Referencia(31305016, null, null, null);
 		Producao newProducao = new Producao(null, new Date(), 12345678, referencia);
 		producaoDao.insert(newProducao);
 		System.out.println("Inserted! New id = " + newProducao.getId());
+		 */	
+		
+		System.out.println("\n===== TEST 5: producao update =====");
+		
+		producao = producaoDao.findById(15);
+		producao.setRegistro(11111);
+		producaoDao.update(producao);
+		System.out.println("Upadate completo!!");				
+		
 		}
 	
 	

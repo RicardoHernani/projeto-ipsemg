@@ -62,7 +62,27 @@ public class ProducaoDaoJDBC implements ProducaoDao {
 
 	@Override
 	public void update(Producao obj) {
-		// TODO Auto-generated method stub
+		PreparedStatement st = null;
+		try {
+			st = conn.prepareStatement(
+					"UPDATE producao "
+					+ "SET Data= ?, Registro= ?, ReferenciaCodigo= ? "
+					+ "WHERE id= ? ");
+			
+			st.setDate(1, new java.sql.Date(obj.getData().getTime()));
+			st.setInt(2, obj.getRegistro());
+			st.setInt(3, obj.getReferencia().getCodigo());
+			st.setInt(4, obj.getId());
+			
+			st.executeUpdate();
+			
+		}
+		catch (SQLException e) {
+			throw new DbException(e.getMessage());
+		}
+		finally {
+			DB.closeStatement(st);
+		}
 		
 	}
 
