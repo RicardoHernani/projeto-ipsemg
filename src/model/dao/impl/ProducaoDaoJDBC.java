@@ -88,8 +88,18 @@ public class ProducaoDaoJDBC implements ProducaoDao {
 
 	@Override
 	public void deleteById(Integer id) {
-		// TODO Auto-generated method stub
-		
+		PreparedStatement st = null;
+		try {
+			st = conn.prepareStatement("DELETE FROM producao WHERE Id = ? ");
+			st.setInt(1, id);
+			st.executeUpdate();	
+		}
+		catch (SQLException e) {
+			throw new DbException(e.getMessage());
+		}
+		finally {
+			DB.closeStatement(st);
+		}
 	}
 
 	@Override

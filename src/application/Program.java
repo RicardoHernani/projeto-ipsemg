@@ -4,6 +4,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Scanner;
 
 import model.dao.DaoFactory;
 import model.dao.ProducaoDao;
@@ -16,6 +17,7 @@ public class Program {
 
 		SimpleDateFormat sdf = new SimpleDateFormat ("dd/MM/yyyy");
 		
+		Scanner sc = new Scanner(System.in);
 		ProducaoDao producaoDao = DaoFactory.createProducaoDao();
 		
 		System.out.println("===== TEST 1: producao findById =====");
@@ -37,22 +39,28 @@ public class Program {
 			System.out.println(obj);
 		}
 	
-		/*
+		
 		System.out.println("\n===== TEST 4: producao insert =====");
 		Referencia referencia = new Referencia(31305016, null, null, null);
 		Producao newProducao = new Producao(null, new Date(), 12345678, referencia);
 		producaoDao.insert(newProducao);
 		System.out.println("Inserted! New id = " + newProducao.getId());
-		 */	
+		
 		
 		System.out.println("\n===== TEST 5: producao update =====");
-		
 		producao = producaoDao.findById(15);
 		producao.setRegistro(11111);
 		producaoDao.update(producao);
 		System.out.println("Upadate completo!!");				
 		
-		}
+		System.out.println("\n===== TEST 6: producao delete =====");
+		System.out.println("Entre o id para deletar");
+		int id = sc.nextInt();
+		producaoDao.deleteById(id);
+		System.out.println("Delete realizado!!");
+		sc.close();
+		
+	}
 	
 	
 }
