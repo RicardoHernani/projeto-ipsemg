@@ -7,6 +7,7 @@ import model.entities.Referencia;
 public interface ReferenciaDao {
 
 	Referencia findByCodigo (Integer codigo);
-	List<Referencia> findByProdedimento (String procedimento);
+	List<Referencia> findByProcedimento (Referencia referencia);
+	
 
 }
