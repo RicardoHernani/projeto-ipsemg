@@ -10,7 +10,6 @@ import java.util.List;
 import db.DB;
 import db.DbException;
 import model.dao.ReferenciaDao;
-import model.entities.Producao;
 import model.entities.Referencia;
 
 public class ReferenciaDaoJDBC implements ReferenciaDao {
@@ -58,7 +57,7 @@ public class ReferenciaDaoJDBC implements ReferenciaDao {
 		ResultSet rs = null;
 		try {
 			st = conn.prepareStatement(
-					"SELECT * FROM referencia WHERE procedimento like '%?%' ");
+					"SELECT * FROM referencia WHERE procedimento LIKE ? ");
 		
 			st.setString(1, referencia.getProcedimento());
 			rs = st.executeQuery();
@@ -66,11 +65,15 @@ public class ReferenciaDaoJDBC implements ReferenciaDao {
 			List<Referencia> list = new ArrayList<>();					
 			
 			while (rs.next()) {
-				Referencia obj = instantiateReferencia(rs); 
+				Referencia obj = new Referencia(); 
+				obj.setCodigo(rs.getInt("Codigo"));
+				obj.setProcedimento(rs.getString("Procedimento"));
+				obj.setPontos(rs.getDouble("Pontos"));
+				obj.setValor(rs.getDouble("Valor"));
 				list.add(obj);
 			
 			}
-			return null;
+			return list;
 		
 		}
 		catch (SQLException e) {
@@ -82,14 +85,6 @@ public class ReferenciaDaoJDBC implements ReferenciaDao {
 		}
 	}
 	
-	private Referencia instantiateReferencia(ResultSet rs) throws SQLException {
-		Referencia obj = new Referencia();
-		obj.setCodigo(rs.getInt("Codigo"));
-		obj.setProcedimento(rs.getString("Procedimento"));
-		obj.setPontos(rs.getDouble("Pontos"));
-		obj.setValor(rs.getDouble("Valor"));
-		return obj;
-	}
 	
 	
 }
