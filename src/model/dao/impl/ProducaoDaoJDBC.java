@@ -231,4 +231,42 @@ public class ProducaoDaoJDBC implements ProducaoDao {
 		}
 	}
 
+
+	@Override
+	public List<Producao> findByIntervaloData(Producao producao) {
+		PreparedStatement st = null;
+		ResultSet rs = null;
+		
+		try {
+			st = conn.prepareStatement(
+					"SELECT producao .*, referencia.Procedimento as Procedimento, referencia.Pontos as Pontos, referencia.Valor as Valor "
+					+ "FROM producao INNER JOIN referencia "
+					+ "ON producao.ReferenciaCodigo = referencia.Codigo "
+					+ "WHERE producao.Data BETWEEN ? AND ? ");
+			
+			st.setDate(1, new java.sql.Date(producao.getDataInicial().getTime()));
+			st.setDate(2, new java.sql.Date(producao.getDataFinal().getTime()));
+			rs = st.executeQuery();
+			
+			List<Producao> list = new ArrayList<>();
+			
+			while (rs.next()) {
+				Referencia ref = instantiateReferencia(rs); //Não fiz como indicado na aula 247 com a estrutura Map porque acho que nesse caso os objetos ref são diferentes e precisam ser instanciados.
+				Producao obj = instantiateProducao(rs, ref);
+				list.add(obj);
+				
+			}
+			return list;
+		
+		}
+		catch (SQLException e) {
+			throw new DbException(e.getMessage());
+		}
+				
+		finally {
+			DB.closeStatement(st);
+			DB.closeResultSet(rs);
+		}
+	}
+
 }

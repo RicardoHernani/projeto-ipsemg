@@ -32,7 +32,7 @@ public class Program {
 			System.out.println(obj);
 		}
 		
-		System.out.println("\n===== TEST 3: producao findByDate =====");
+		System.out.println("\n===== TEST 3: producao findByData =====");
 		Producao producao3 = new Producao (null, new java.sql.Date(sdf.parse("30/07/2020").getTime()), null, null);
 		list= producaoDao.findByData(producao3);
 		for (Producao obj : list) {
@@ -59,6 +59,13 @@ public class Program {
 		producaoDao.deleteById(id);
 		System.out.println("Delete realizado!!");
 		sc.close();
+		
+		System.out.println("\n===== TEST 7: producao findByIntervaloData =====");
+		Producao producao4 = new Producao (null, null, new java.sql.Date(sdf.parse("05/05/2020").getTime()), new java.sql.Date(sdf.parse("30/07/2020").getTime()), null);
+		list= producaoDao.findByIntervaloData(producao4);
+		for (Producao obj : list) {
+			System.out.println(obj);
+		}
 		
 	}
 	

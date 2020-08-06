@@ -14,6 +14,9 @@ public class Producao implements Serializable {
 	private Date data;
 	private Integer registro;
 	
+	private Date dataInicial;
+	private Date dataFinal;
+	
 
 	private Referencia referencia;
 	
@@ -24,6 +27,15 @@ public class Producao implements Serializable {
 		this.id = id;
 		this.data = data;
 		this.registro = registro;
+		this.referencia = referencia;
+	}
+	
+
+	public Producao(Integer id, Integer registro, Date dataInicial, Date dataFinal, Referencia referencia) {
+		this.id = id;
+		this.registro = registro;
+		this.dataInicial = dataInicial;
+		this.dataFinal = dataFinal;
 		this.referencia = referencia;
 	}
 
@@ -61,11 +73,29 @@ public class Producao implements Serializable {
 	
 	
 
+	public Date getDataInicial() {
+		return dataInicial;
+	}
+
+	public void setDataInicial(Date dataInicial) {
+		this.dataInicial = dataInicial;
+	}
+
+	public Date getDataFinal() {
+		return dataFinal;
+	}
+
+	public void setDataFinal(Date dataFinal) {
+		this.dataFinal = dataFinal;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((data == null) ? 0 : data.hashCode());
+		result = prime * result + ((dataFinal == null) ? 0 : dataFinal.hashCode());
+		result = prime * result + ((dataInicial == null) ? 0 : dataInicial.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((referencia == null) ? 0 : referencia.hashCode());
 		result = prime * result + ((registro == null) ? 0 : registro.hashCode());
@@ -85,6 +115,16 @@ public class Producao implements Serializable {
 			if (other.data != null)
 				return false;
 		} else if (!data.equals(other.data))
+			return false;
+		if (dataFinal == null) {
+			if (other.dataFinal != null)
+				return false;
+		} else if (!dataFinal.equals(other.dataFinal))
+			return false;
+		if (dataInicial == null) {
+			if (other.dataInicial != null)
+				return false;
+		} else if (!dataInicial.equals(other.dataInicial))
 			return false;
 		if (id == null) {
 			if (other.id != null)
@@ -106,8 +146,11 @@ public class Producao implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Producao [id=" + id + ", data=" + data + ", registro=" + registro + ", referencia=" + referencia + "]";
+		return "Producao [id=" + id + ", data=" + data + ", registro=" + registro + ", dataInicial=" + dataInicial
+				+ ", dataFinal=" + dataFinal + ", referencia=" + referencia + "]";
 	}
+
+	
 
 	
 	

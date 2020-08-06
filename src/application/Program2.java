@@ -21,6 +21,7 @@ public class Program2 {
 	System.out.println("\n===== TEST 2: referencia findByProcedimento =====");
 	
 	Scanner sc = new Scanner(System.in);
+	System.out.println("Entre o termo para pesquisa: ");
 	String busca= sc.nextLine();
 	
 	Referencia ref2 = new Referencia (null, "%" + busca+ "%", null, null); //Maiúscula e Minúscula não faz diferença
